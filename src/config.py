@@ -4,8 +4,8 @@ import os
 
 load_dotenv()  # загружает .env (Railway использует Variables, но dotenv тоже работает)
 
-BOT_TOKEN = os.getenv("BOT_TOKEN")
-DATABASE_URL = os.getenv("DATABASE_URL")
+BOT_TOKEN = os.getenv("7747552598:AAE4L4xOMjKqCxp-53E1BinvYdF0tpZLbj8")
+DATABASE_URL = os.getenv("postgresql+asyncpg://user:password@host:5432/dbname")
 
 # Webhook настройки (Railway сам подставит домен)
 WEBHOOK_PATH = os.getenv("WEBHOOK_PATH", "/webhook")
