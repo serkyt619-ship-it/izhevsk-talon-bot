@@ -1,10 +1,11 @@
-# src/main.py — исправленный webhook сервер с aiogram
+# src/main.py
 import asyncio
 import os
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import CommandStart
 from aiogram.webhook.aiohttp_server import SimpleRequestHandler, setup_application
 from aiohttp import web
+
 from src.config import BOT_TOKEN, WEBHOOK_PATH, WEBHOOK_URL
 
 bot = Bot(token=BOT_TOKEN)
@@ -12,7 +13,11 @@ dp = Dispatcher()
 
 @dp.message(CommandStart())
 async def start(message: types.Message):
-    await message.answer("Привет! 👋\nЯ бот мониторинга талонов в Ижевске.\nНапиши /start для меню")
+    await message.answer(
+        "Привет! 👋\n"
+        "Я бот мониторинга талонов в Ижевске.\n"
+        "Напиши /start для меню"
+    )
 
 async def on_startup():
     await bot.set_webhook(url=WEBHOOK_URL + WEBHOOK_PATH)
@@ -40,7 +45,7 @@ async def main():
     await site.start()
 
     print(f"Webhook сервер запущен на порту {port}")
-    await asyncio.Event().wait()  # Держим сервер живым
+    await asyncio.Event().wait()
 
 if __name__ == "__main__":
     asyncio.run(main())
