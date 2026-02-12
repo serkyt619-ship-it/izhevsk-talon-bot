@@ -1,20 +1,24 @@
 # alembic/env.py
-import asyncio
 import sys
 import os
 
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# Добавляем корень проекта в sys.path, чтобы видеть src/
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from logging.config import fileConfig
+
 from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy import pool
 from alembic import context
 
+# Теперь импорт работает
 from src.db.models import Base
 from src.config import DATABASE_URL
 
 config = context.config
+
 fileConfig(config.config_file_name)
+
 target_metadata = Base.metadata
 
 def run_migrations_offline() -> None:
@@ -52,4 +56,5 @@ async def run_migrations_online():
 if context.is_offline_mode():
     run_migrations_offline()
 else:
+    import asyncio
     asyncio.run(run_migrations_online())
