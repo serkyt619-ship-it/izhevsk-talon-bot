@@ -1,1 +1,1 @@
-web: alembic upgrade head --config /app/alembic.ini && python /app/main.py
+web: alembic upgrade head && python main.py
