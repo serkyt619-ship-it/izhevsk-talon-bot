@@ -26,8 +26,8 @@ class Clinic(Base):
     city_id = Column(Integer, ForeignKey("cities.id"))
     name = Column(String, nullable=False)
     address = Column(String)
-    aliases = Column(String)  # строка с запятыми
-    url = Column(String)      # для парсера
+    aliases = Column(String)
+    url = Column(String)
 
 
 class Doctor(Base):
@@ -43,7 +43,7 @@ class User(Base):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True)
     tg_user_id = Column(Integer, unique=True, nullable=False)
-    tg_chat_id = Column(Integer)  # ← здесь оно есть!
+    tg_chat_id = Column(Integer)
     username = Column(String)
     first_name = Column(String)
     last_name = Column(String)
