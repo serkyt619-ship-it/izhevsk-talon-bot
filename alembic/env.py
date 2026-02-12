@@ -1,27 +1,18 @@
-# alembic/env.py
-import sys
-import os
-
-# Добавляем корень проекта в sys.path, чтобы видеть src/
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
+# alembic/env.py — минимальный, без зависимости от src/ на этапе деплоя
 from logging.config import fileConfig
 
-from sqlalchemy.ext.asyncio import create_async_engine
-from sqlalchemy import pool
 from alembic import context
+from sqlalchemy import pool
+from sqlalchemy.ext.asyncio import create_async_engine
 
-# Теперь импорт работает
-from src.db.models import Base
-from src.config import DATABASE_URL
+# НЕ импортируем модели здесь — миграции будут работать без них на первом запуске
+target_metadata = None  # ← временно None, потом вернём
 
 config = context.config
 
 fileConfig(config.config_file_name)
 
-target_metadata = Base.metadata
-
-def run_migrations_offline() -> None:
+def run_migrations_offline():
     url = config.get_main_option("sqlalchemy.url")
     context.configure(
         url=url,
@@ -33,17 +24,15 @@ def run_migrations_offline() -> None:
     with context.begin_transaction():
         context.run_migrations()
 
-
 def do_run_migrations(connection):
     context.configure(connection=connection, target_metadata=target_metadata)
 
     with context.begin_transaction():
         context.run_migrations()
 
-
 async def run_migrations_online():
     connectable = create_async_engine(
-        DATABASE_URL,
+        config.get_main_option("sqlalchemy.url"),
         poolclass=pool.NullPool,
     )
 
